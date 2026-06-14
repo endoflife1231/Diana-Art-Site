@@ -1,190 +1,4 @@
-const artworks = [
-  {
-    "id": "boy",
-    "title": "Мальчишка",
-    "year": 2025,
-    "technique": "холст, масло, акрил",
-    "size": "—",
-    "status": "sold",
-    "price": "",
-    "categories": [
-      "social"
-    ],
-    "image": "assets/images/art/boy.webp",
-    "alt": "Картина Дианы «Мальчишка»: мальчик в большой футболке на сиреневом фоне",
-    "description": "Мальчик в огромной футболке на фоне обшарпанной стены. Маленький цветок в руках становится образом хрупкости, внимания и неслучившегося взросления.",
-    "story": "Сюжет предельно прост: ребёнок, стена и цветок. Но именно в этой простоте появляется вопрос — о ком на самом деле речь: о цветке, о мальчике или о любом шансе, которому не дали вырасти.",
-    "quote": "Каждый находит в этом что-то своё, и смыслу не обязательно быть гениально неочевидным.",
-    "featured": 1
-  },
-  {
-    "id": "poker",
-    "title": "Покер",
-    "year": 2025,
-    "technique": "холст, масло, акрил",
-    "size": "50×70 см",
-    "status": "sold",
-    "price": "",
-    "categories": [
-      "pop"
-    ],
-    "image": "assets/images/art/poker.webp",
-    "alt": "Картина Дианы «Покер»: женские руки, карты, фишки и розовый фон",
-    "description": "Контраст взрослых женских рук, яркого розового, фишек, напитков и деталей игры. Реальный сюжет фул‑хауса вместо случайной декоративности.",
-    "story": "Диана специально разбиралась в покере, чтобы сцена была не фантазией на тему карт, а действительным игровым эпизодом. В этом и работает её внимание к деталям: даже ироничная вещь не становится пустой.",
-    "quote": "Картина сама за себя говорит, но фул‑хаус там не случайно.",
-    "featured": 2
-  },
-  {
-    "id": "zaliv",
-    "title": "Залив",
-    "year": 2025,
-    "technique": "масло",
-    "size": "30×40 см",
-    "status": "available",
-    "price": "8 000 ₽",
-    "categories": [
-      "city"
-    ],
-    "image": "assets/images/art/zaliv.webp",
-    "alt": "Картина Дианы «Залив»: спокойный горизонт воды в приглушённых оттенках",
-    "description": "Работа о Петербурге, влажном воздухе, Неве и личной привязанности к городу, которая началась не с открытки, а с частного болезненного воспоминания.",
-    "story": "Пейзаж не пытается продавать «романтику Петербурга». Он больше похож на след: вода, дальняя линия, холод и город, к которому постепенно привязываешься, даже если пришёл туда совсем за другим.",
-    "quote": "В Питере греет не солнце, в Питере греют люди.",
-    "featured": 3
-  },
-  {
-    "id": "rodina",
-    "title": "Родина Мать",
-    "year": 2025,
-    "technique": "масло, акрил",
-    "size": "40×50 см",
-    "status": "sold",
-    "price": "",
-    "categories": [
-      "city",
-      "nature"
-    ],
-    "image": "assets/images/art/rodina.webp",
-    "alt": "Картина Дианы «Родина Мать»: зелёная городская среда с домом и растениями",
-    "description": "Волгоградская среда: многоэтажка, трава, ромашки и образ Родины‑матери как энергетика города, которая чувствуется даже без прямого присутствия.",
-    "story": "После Петербурга с его повторяющимися символами Диана заметила контраст: в Волгограде Родина‑мать может не попадать в кадр, но всё равно ощущается. Картина вписывает большой символ в базовую повседневность.",
-    "quote": "Она везде, и энергетика от неё тоже везде.",
-    "featured": 4
-  },
-  {
-    "id": "swan",
-    "title": "Лебединое озеро",
-    "year": 2025,
-    "technique": "акварель, пастель",
-    "size": "30×40 см",
-    "status": "sold",
-    "price": "",
-    "categories": [
-      "pop"
-    ],
-    "image": "assets/images/art/swan.webp",
-    "alt": "Картина Дианы «Лебединое озеро»: фигура балерины в цветном движении",
-    "description": "Работа, вдохновлённая балетом, Майей Плисецкой и архивной записью 1976 года, где качество видео будто переходит в фактуру изображения.",
-    "story": "Пока создавался холст, звучало и шло «Лебединое озеро» 1976 года. В работе осталось ощущение старой записи: движение, зерно, цвет и почти экранная дистанция.",
-    "quote": "Качество видео соответствует году записи — кажется, это даже отразилось на картине.",
-    "featured": 5
-  },
-  {
-    "id": "with-you",
-    "title": "With you I’m not scared of the dark",
-    "year": 2025,
-    "technique": "масло, акрил",
-    "size": "50×60 см",
-    "status": "available",
-    "price": "по запросу",
-    "categories": [
-      "love",
-      "nature"
-    ],
-    "image": "assets/images/art/with-you.webp",
-    "alt": "Картина Дианы с двумя белыми ягнятами на тёмном фоне",
-    "description": "Тёплая работа про близость и поддержку: темнота любого масштаба становится менее страшной, если рядом есть свой человек.",
-    "story": "На поверхности — два ягнёнка. Внутри — формула поддержки: с тобой не так страшны кризисы, экзамены, налоги, стоматолог и любой другой вид темноты.",
-    "quote": "С тобой я не боюсь вообще любой темноты.",
-    "featured": 6
-  },
-  {
-    "id": "centre",
-    "title": "The one in the centre",
-    "year": 2026,
-    "technique": "холст, акрил",
-    "size": "25×35 см",
-    "status": "sold",
-    "price": "",
-    "categories": [
-      "nature",
-      "social"
-    ],
-    "image": "assets/images/art/centre.webp",
-    "alt": "Картина Дианы «The one in the centre»: маленькая фигура пингвина на фоне гор",
-    "description": "Пингвин, который не идёт к кормовым местам и не возвращается к колонии, а снова и снова уходит к горам.",
-    "story": "В центре не героический жест, а странное упорство. Одинокое движение к горам становится образом выбора, который никто до конца не может объяснить.",
-    "quote": "But why…?",
-    "featured": 7
-  },
-  {
-    "id": "czechoslovaks",
-    "title": "16 чехословаков",
-    "year": 2026,
-    "technique": "холст, акрил, масло",
-    "size": "30×50 см",
-    "status": "sold",
-    "price": "",
-    "categories": [
-      "pop"
-    ],
-    "image": "assets/images/art/czechoslovaks.webp",
-    "alt": "Картина Дианы «16 чехословаков»: два персонажа на снежном фоне",
-    "description": "Поп‑культурная работа с кинематографичным холодом, снежным фоном и репликой, которая превращается в отдельный визуальный мем.",
-    "story": "Работа существует на границе фанатского кадра, интерьерной иронии и живописного объекта: узнавание важно, но не отменяет композицию.",
-    "quote": "В тиктоке они висят уже месяца два — оставлю их и тут.",
-    "featured": 8
-  },
-  {
-    "id": "february",
-    "title": "fuck the 14th February / I love you everyday",
-    "year": 2026,
-    "technique": "холст, акрил",
-    "size": "30×40 см",
-    "status": "sold",
-    "price": "",
-    "categories": [
-      "love",
-      "pop"
-    ],
-    "image": "assets/images/art/february.webp",
-    "alt": "Картина Дианы о любви вне календарных дат с двумя фигурами у экрана",
-    "description": "Работа про любовь вне календарных дат: не открытка к празднику, а личное признание в ежедневности чувства.",
-    "story": "Здесь важен не День святого Валентина, а жест сопротивления календарной романтике: любовь не обязана случаться по расписанию.",
-    "quote": "Love you. Love art. Love life.",
-    "featured": 9
-  },
-  {
-    "id": "medieval",
-    "title": "Medieval Adriana and Chris",
-    "year": 2026,
-    "technique": "холст, акрил, пастель",
-    "size": "25×30 см",
-    "status": "available",
-    "price": "по запросу",
-    "categories": [
-      "pop",
-      "nature"
-    ],
-    "image": "assets/images/art/medieval.webp",
-    "alt": "Картина Дианы «Medieval Adriana and Chris» с персонажем за столом и кошками",
-    "description": "Поп‑культурная работа с отсылкой к «Клану Сопрано», средневековой интонацией и мистической природой кошек.",
-    "story": "Крис и Адриана здесь существуют как личная мифология: фанатская память, кошачья магия и мягкая театральность в одном небольшом холсте.",
-    "quote": "She is the legend in every universe.",
-    "featured": 10
-  }
-];
+const artworks = Array.isArray(window.__SITE_DATA__?.artworks) ? window.__SITE_DATA__.artworks : [];
 
 const categoryLabels = {
   city: "город",
@@ -236,6 +50,7 @@ const nodes = {
   toast: $("[data-toast]"),
   form: $("[data-contact-form]"),
   formOutput: $("[data-form-output]"),
+  copyMessage: $("[data-copy-message]"),
   year: $("[data-year]"),
   totalCount: $("[data-total-count]"),
   availableCount: $("[data-available-count]"),
@@ -246,6 +61,8 @@ const nodes = {
 let lastFocusedElement = null;
 let toastTimer = null;
 let phraseTimer = null;
+let preparedMessage = "";
+let scrollTicking = false;
 
 function escapeHTML(value) {
   return String(value ?? "")
@@ -284,7 +101,7 @@ function renderGallery() {
   nodes.gallery.innerHTML = items.map((art) => {
     const tags = art.categories.map((cat) => categoryLabels[cat] || cat).join(" · ");
     const price = art.price ? ` · ${escapeHTML(art.price)}` : "";
-    return `<article class="art-card" data-art-id="${escapeHTML(art.id)}">
+    return `<article class="art-card" data-art-id="${escapeHTML(art.id)}" tabindex="0" role="button" aria-label="Открыть историю работы ${escapeHTML(art.title)}">
       <figure>
         <div class="art-image"><img src="${escapeHTML(art.image)}" alt="${escapeHTML(art.alt)}" loading="lazy"></div>
         <figcaption class="art-card-body">
@@ -309,7 +126,7 @@ function renderGallery() {
 function renderAvailable() {
   if (!nodes.availableList) return;
   const available = artworks.filter((art) => art.status === "available");
-  nodes.availableList.innerHTML = available.map((art) => `<article class="available-item">
+  nodes.availableList.innerHTML = available.map((art) => `<article class="available-item" data-available-art="${escapeHTML(art.id)}" tabindex="0" role="button">
     <img src="${escapeHTML(art.image)}" alt="${escapeHTML(art.alt)}" loading="lazy">
     <div><h3>${escapeHTML(art.title)}</h3><p>${escapeHTML(art.technique)} · ${escapeHTML(art.size)}</p></div>
     <strong>${escapeHTML(art.price || "по запросу")}</strong>
@@ -344,6 +161,8 @@ function openModal(id) {
       <p class="modal-meta">${escapeHTML(art.technique)} · ${escapeHTML(art.size)} · ${escapeHTML(art.year)}${art.price ? " · " + escapeHTML(art.price) : ""}</p>
       <div class="modal-story"><p>${escapeHTML(art.description)}</p><p>${escapeHTML(art.story)}</p></div>
       <blockquote class="modal-quote">${escapeHTML(art.quote)}</blockquote>
+      ${art.id === "february" ? `<video class="modal-video" controls preload="metadata" poster="${escapeHTML(art.image)}"><source src="assets/videos/february-edit.mp4" type="video/mp4"></video>` : ""}
+      ${art.id === "zaliv" ? `<video class="modal-video" controls preload="metadata" poster="${escapeHTML(art.image)}"><source src="assets/videos/hero-zaliv.mp4" type="video/mp4"></video>` : ""}
       <div class="modal-tags" aria-label="Темы работы">${tags}</div>
     </article>`;
   if (typeof nodes.modal.showModal === "function") {
@@ -403,7 +222,33 @@ function bindEvents() {
 
   if (nodes.gallery) nodes.gallery.addEventListener("click", (event) => {
     const opener = event.target.closest("[data-open-art]");
-    if (opener) openModal(opener.dataset.openArt);
+    const card = event.target.closest("[data-art-id]");
+    if (opener) {
+      openModal(opener.dataset.openArt);
+      return;
+    }
+    if (card && !event.target.closest("a, button, input, select, textarea")) openModal(card.dataset.artId);
+  });
+
+  if (nodes.gallery) nodes.gallery.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const card = event.target.closest("[data-art-id]");
+    if (!card) return;
+    event.preventDefault();
+    openModal(card.dataset.artId);
+  });
+
+  if (nodes.availableList) nodes.availableList.addEventListener("click", (event) => {
+    const item = event.target.closest("[data-available-art]");
+    if (item) openModal(item.dataset.availableArt);
+  });
+
+  if (nodes.availableList) nodes.availableList.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const item = event.target.closest("[data-available-art]");
+    if (!item) return;
+    event.preventDefault();
+    openModal(item.dataset.availableArt);
   });
 
   if (nodes.modalClose) nodes.modalClose.addEventListener("click", closeModal);
@@ -415,6 +260,15 @@ function bindEvents() {
     if (event.key === "Escape") {
       closeModal();
       closeMenu();
+    }
+    if (event.key === "Tab" && nodes.modal?.open) {
+      const focusable = $$("a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), video[controls], [tabindex]:not([tabindex='-1'])", nodes.modal)
+        .filter((element) => element.offsetParent !== null || element === document.activeElement);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     }
   });
 
@@ -439,18 +293,34 @@ function bindEvents() {
       showToast("Заполните имя, контакт и сообщение.");
       return;
     }
-    const prepared = `Привет, Диана! Меня зовут ${name}.\nМой контакт: ${contact}.\n\n${message}`;
+    preparedMessage = `Привет, Диана! Меня зовут ${name}.\nМой контакт: ${contact}.\n\n${message}`;
     if (nodes.formOutput) {
       nodes.formOutput.hidden = false;
-      nodes.formOutput.textContent = prepared;
+      nodes.formOutput.textContent = preparedMessage;
     }
+    if (nodes.copyMessage) nodes.copyMessage.hidden = false;
     showToast("Сообщение подготовлено — скопируйте его в Telegram.");
   });
 
+  if (nodes.copyMessage) nodes.copyMessage.addEventListener("click", async () => {
+    if (!preparedMessage) return;
+    try {
+      await navigator.clipboard.writeText(preparedMessage);
+      showToast("Сообщение скопировано.");
+    } catch {
+      showToast("Не удалось скопировать автоматически — выделите текст вручную.");
+    }
+  });
+
   window.addEventListener("scroll", () => {
-    const scrolled = window.scrollY > 18;
-    if (nodes.header) nodes.header.classList.toggle("is-scrolled", scrolled);
-    if (nodes.backTop) nodes.backTop.classList.toggle("is-visible", window.scrollY > 620);
+    if (scrollTicking) return;
+    scrollTicking = true;
+    window.requestAnimationFrame(() => {
+      const scrolled = window.scrollY > 18;
+      if (nodes.header) nodes.header.classList.toggle("is-scrolled", scrolled);
+      if (nodes.backTop) nodes.backTop.classList.toggle("is-visible", window.scrollY > 620);
+      scrollTicking = false;
+    });
   }, { passive: true });
 }
 

@@ -1,4 +1,5 @@
-﻿window.__SITE_DATA__ = { artworks: [
+window.__SITE_DATA__ = {
+  artworks: [
   {
     "id": "boy",
     "title": "Мальчишка",
@@ -7,7 +8,9 @@
     "size": "—",
     "status": "sold",
     "price": "",
-    "categories": ["social"],
+    "categories": [
+      "social"
+    ],
     "image": "assets/images/art/boy.webp",
     "alt": "Картина Дианы «Мальчишка»: мальчик в большой футболке на сиреневом фоне",
     "description": "Мальчик в огромной футболке на фоне обшарпанной стены. Маленький цветок в руках становится образом хрупкости, внимания и неслучившегося взросления.",
@@ -23,7 +26,9 @@
     "size": "50×70 см",
     "status": "sold",
     "price": "",
-    "categories": ["pop"],
+    "categories": [
+      "pop"
+    ],
     "image": "assets/images/art/poker.webp",
     "alt": "Картина Дианы «Покер»: женские руки, карты, фишки и розовый фон",
     "description": "Контраст взрослых женских рук, яркого розового, фишек, напитков и деталей игры. Реальный сюжет фул‑хауса вместо случайной декоративности.",
@@ -39,7 +44,9 @@
     "size": "30×40 см",
     "status": "available",
     "price": "8 000 ₽",
-    "categories": ["city"],
+    "categories": [
+      "city"
+    ],
     "image": "assets/images/art/zaliv.webp",
     "alt": "Картина Дианы «Залив»: спокойный горизонт воды в приглушённых оттенках",
     "description": "Работа о Петербурге, влажном воздухе, Неве и личной привязанности к городу, которая началась не с открытки, а с частного болезненного воспоминания.",
@@ -55,7 +62,10 @@
     "size": "40×50 см",
     "status": "sold",
     "price": "",
-    "categories": ["city", "nature"],
+    "categories": [
+      "city",
+      "nature"
+    ],
     "image": "assets/images/art/rodina.webp",
     "alt": "Картина Дианы «Родина Мать»: зелёная городская среда с домом и растениями",
     "description": "Волгоградская среда: многоэтажка, трава, ромашки и образ Родины‑матери как энергетика города, которая чувствуется даже без прямого присутствия.",
@@ -71,7 +81,9 @@
     "size": "30×40 см",
     "status": "sold",
     "price": "",
-    "categories": ["pop"],
+    "categories": [
+      "pop"
+    ],
     "image": "assets/images/art/swan.webp",
     "alt": "Картина Дианы «Лебединое озеро»: фигура балерины в цветном движении",
     "description": "Работа, вдохновлённая балетом, Майей Плисецкой и архивной записью 1976 года, где качество видео будто переходит в фактуру изображения.",
@@ -87,7 +99,10 @@
     "size": "50×60 см",
     "status": "available",
     "price": "по запросу",
-    "categories": ["love", "nature"],
+    "categories": [
+      "love",
+      "nature"
+    ],
     "image": "assets/images/art/with-you.webp",
     "alt": "Картина Дианы с двумя белыми ягнятами на тёмном фоне",
     "description": "Тёплая работа про близость и поддержку: темнота любого масштаба становится менее страшной, если рядом есть свой человек.",
@@ -103,7 +118,10 @@
     "size": "25×35 см",
     "status": "sold",
     "price": "",
-    "categories": ["nature", "social"],
+    "categories": [
+      "nature",
+      "social"
+    ],
     "image": "assets/images/art/centre.webp",
     "alt": "Картина Дианы «The one in the centre»: маленькая фигура пингвина на фоне гор",
     "description": "Пингвин, который не идёт к кормовым местам и не возвращается к колонии, а снова и снова уходит к горам.",
@@ -119,7 +137,9 @@
     "size": "30×50 см",
     "status": "sold",
     "price": "",
-    "categories": ["pop"],
+    "categories": [
+      "pop"
+    ],
     "image": "assets/images/art/czechoslovaks.webp",
     "alt": "Картина Дианы «16 чехословаков»: два персонажа на снежном фоне",
     "description": "Поп‑культурная работа с кинематографичным холодом, снежным фоном и репликой, которая превращается в отдельный визуальный мем.",
@@ -135,14 +155,16 @@
     "size": "30×40 см",
     "status": "sold",
     "price": "",
-    "categories": ["love", "pop"],
+    "categories": [
+      "love",
+      "pop"
+    ],
     "image": "assets/images/art/february.webp",
     "alt": "Картина Дианы о любви вне календарных дат с двумя фигурами у экрана",
     "description": "Работа про любовь вне календарных дат: не открытка к празднику, а личное признание в ежедневности чувства.",
     "story": "Здесь важен не День святого Валентина, а жест сопротивления календарной романтике: любовь не обязана случаться по расписанию.",
     "quote": "Love you. Love art. Love life.",
-    "featured": 9,
-    "video": "assets/videos/february-edit.mp4"
+    "featured": 9
   },
   {
     "id": "medieval",
@@ -152,7 +174,10 @@
     "size": "25×30 см",
     "status": "available",
     "price": "по запросу",
-    "categories": ["pop", "nature"],
+    "categories": [
+      "pop",
+      "nature"
+    ],
     "image": "assets/images/art/medieval.webp",
     "alt": "Картина Дианы «Medieval Adriana and Chris» с персонажем за столом и кошками",
     "description": "Поп‑культурная работа с отсылкой к «Клану Сопрано», средневековой интонацией и мистической природой кошек.",
@@ -161,31 +186,4 @@
     "featured": 10
   }
 ]
-, videos: [
-  {
-    "id": "hero-zaliv",
-    "title": "Залив — атмосфера",
-    "src": "assets/videos/hero-zaliv.mp4",
-    "poster": "assets/images/art/zaliv.webp",
-    "description": "Короткое видео о работе «Залив»: вода, город, настроение холста.",
-    "artId": "zaliv"
-  },
-  {
-    "id": "process-routine",
-    "title": "Рутинный процесс",
-    "src": "assets/videos/process-routine.mp4",
-    "poster": "assets/images/archive/flowers-studio.webp",
-    "description": "Студия, руки, обычный ритм — из чего на самом деле собираются картины.",
-    "artId": null
-  },
-  {
-    "id": "february-edit",
-    "title": "14 February — артхаус‑эдит",
-    "src": "assets/videos/february-edit.mp4",
-    "poster": "assets/images/art/february.webp",
-    "description": "Монтаж при создании работы про любовь вне календарных дат.",
-    "artId": "february"
-  }
-]
- };
-
+};
