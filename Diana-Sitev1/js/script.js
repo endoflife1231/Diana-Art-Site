@@ -13,6 +13,10 @@ const statusLabels = {
   sold: "продано"
 };
 
+const allowedFilters = ["all", "available", "sold", ...Object.keys(categoryLabels)];
+const allowedViews = ["grid", "list"];
+const allowedSorts = ["featured", "newest", "available", "title"];
+
 const storage = {
   get(key, fallback) {
     try { return localStorage.getItem(key) || fallback; } catch { return fallback; }
@@ -22,10 +26,15 @@ const storage = {
   }
 };
 
+function storedChoice(key, fallback, allowedValues) {
+  const value = storage.get(key, fallback);
+  return allowedValues.includes(value) ? value : fallback;
+}
+
 const state = {
-  filter: storage.get("dianaFinalFilter", "all"),
-  view: storage.get("dianaFinalView", "grid"),
-  sort: storage.get("dianaFinalSort", "featured"),
+  filter: storedChoice("dianaFinalFilter", "all", allowedFilters),
+  view: storedChoice("dianaFinalView", "grid", allowedViews),
+  sort: storedChoice("dianaFinalSort", "featured", allowedSorts),
   search: ""
 };
 
@@ -50,12 +59,13 @@ const nodes = {
   toast: $("[data-toast]"),
   form: $("[data-contact-form]"),
   formOutput: $("[data-form-output]"),
-  copyMessage: $("[data-copy-message]"),
   year: $("[data-year]"),
   totalCount: $("[data-total-count]"),
   availableCount: $("[data-available-count]"),
   rotatingSource: $("[data-rotating-source]"),
-  rotatingResult: $("[data-rotating-result]")
+  rotatingResult: $("[data-rotating-result]"),
+  heroVideo: $(".hero-video-frame video"),
+  heroSound: $("[data-hero-sound]")
 };
 
 let lastFocusedElement = null;
@@ -93,15 +103,33 @@ function badge(status) {
   return `<span class="badge ${escapeHTML(status)}">${escapeHTML(statusLabels[status] || status)}</span>`;
 }
 
+function isRequestPrice(price) {
+  return String(price || "").trim().toLowerCase() === "по запросу";
+}
+
+function priceMarkup(art, className = "") {
+  const price = art.price || "по запросу";
+  const classes = ["price-link", className].filter(Boolean).join(" ");
+  if (!isRequestPrice(price)) return `<span class="${escapeHTML(className)}">${escapeHTML(price)}</span>`;
+  return `<a class="${escapeHTML(classes)}" href="#contact" data-contact-jump data-art-title="${escapeHTML(art.title)}">${escapeHTML(price)}</a>`;
+}
+
+function inlinePrice(art) {
+  if (!art.price) return "";
+  if (isRequestPrice(art.price)) return priceMarkup(art, "art-price-inline");
+  return `<span class="art-price-inline">${escapeHTML(art.price)}</span>`;
+}
+
 function renderGallery() {
   if (!nodes.gallery || !nodes.empty) return;
   const items = getFilteredArtworks();
   nodes.gallery.classList.toggle("is-list", state.view === "list");
   nodes.empty.hidden = items.length > 0;
+  nodes.gallery.classList.add("is-updating");
   nodes.gallery.innerHTML = items.map((art) => {
     const tags = art.categories.map((cat) => categoryLabels[cat] || cat).join(" · ");
-    const price = art.price ? ` · ${escapeHTML(art.price)}` : "";
-    return `<article class="art-card" data-art-id="${escapeHTML(art.id)}" tabindex="0" role="button" aria-label="Открыть историю работы ${escapeHTML(art.title)}">
+    const price = art.price ? ` · ${inlinePrice(art)}` : "";
+    return `<article class="art-card" data-art-id="${escapeHTML(art.id)}">
       <figure>
         <div class="art-image"><img src="${escapeHTML(art.image)}" alt="${escapeHTML(art.alt)}" loading="lazy"></div>
         <figcaption class="art-card-body">
@@ -115,21 +143,25 @@ function renderGallery() {
           <p class="art-desc">${escapeHTML(art.description)}</p>
           <div class="art-actions">
             <span class="art-tags">${escapeHTML(tags)}</span>
-            <button class="detail-button" type="button" data-open-art="${escapeHTML(art.id)}">читать историю</button>
+            <button class="detail-button" type="button" data-open-art="${escapeHTML(art.id)}" aria-label="Открыть историю работы ${escapeHTML(art.title)}">читать историю</button>
           </div>
         </figcaption>
       </figure>
     </article>`;
   }).join("");
+  window.requestAnimationFrame(() => nodes.gallery.classList.remove("is-updating"));
 }
 
 function renderAvailable() {
   if (!nodes.availableList) return;
   const available = artworks.filter((art) => art.status === "available");
-  nodes.availableList.innerHTML = available.map((art) => `<article class="available-item" data-available-art="${escapeHTML(art.id)}" tabindex="0" role="button">
+  nodes.availableList.innerHTML = available.map((art) => `<article class="available-item" data-available-art="${escapeHTML(art.id)}">
     <img src="${escapeHTML(art.image)}" alt="${escapeHTML(art.alt)}" loading="lazy">
     <div><h3>${escapeHTML(art.title)}</h3><p>${escapeHTML(art.technique)} · ${escapeHTML(art.size)}</p></div>
-    <strong>${escapeHTML(art.price || "по запросу")}</strong>
+    <div class="available-actions">
+      ${priceMarkup(art, "available-price")}
+      <button class="available-open" type="button" data-open-art="${escapeHTML(art.id)}" aria-label="Открыть историю работы ${escapeHTML(art.title)}">история</button>
+    </div>
   </article>`).join("");
 }
 
@@ -158,11 +190,15 @@ function openModal(id) {
     <article class="modal-copy">
       ${badge(art.status)}
       <h2 id="modal-title">${escapeHTML(art.title)}</h2>
-      <p class="modal-meta">${escapeHTML(art.technique)} · ${escapeHTML(art.size)} · ${escapeHTML(art.year)}${art.price ? " · " + escapeHTML(art.price) : ""}</p>
+      <p class="modal-meta">${escapeHTML(art.technique)} · ${escapeHTML(art.size)} · ${escapeHTML(art.year)}${art.price ? " · " + priceMarkup(art, "modal-price") : ""}</p>
       <div class="modal-story"><p>${escapeHTML(art.description)}</p><p>${escapeHTML(art.story)}</p></div>
       <blockquote class="modal-quote">${escapeHTML(art.quote)}</blockquote>
       ${art.id === "february" ? `<video class="modal-video" controls preload="metadata" poster="${escapeHTML(art.image)}"><source src="assets/videos/february-edit.mp4" type="video/mp4"></video>` : ""}
       ${art.id === "zaliv" ? `<video class="modal-video" controls preload="metadata" poster="${escapeHTML(art.image)}"><source src="assets/videos/hero-zaliv.mp4" type="video/mp4"></video>` : ""}
+      ${art.id === "centre" ? `<div class="modal-media-pair">
+        <img src="assets/images/art/penguin-context.jpg" alt="Девушка в снежных горах рядом с фигурой пингвина" loading="lazy">
+        <video class="modal-video" controls preload="metadata" poster="${escapeHTML(art.image)}"><source src="assets/videos/penguin-context.mp4" type="video/mp4"></video>
+      </div>` : ""}
       <div class="modal-tags" aria-label="Темы работы">${tags}</div>
     </article>`;
   if (typeof nodes.modal.showModal === "function") {
@@ -173,9 +209,35 @@ function openModal(id) {
   if (nodes.modalClose) nodes.modalClose.focus();
 }
 
+function openImageModal({ src, title, alt }) {
+  if (!nodes.modal || !nodes.modalContent || !src) return;
+  lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  nodes.modalContent.innerHTML = `<div class="modal-image modal-image--archive">
+    <img src="${escapeHTML(src)}" alt="${escapeHTML(alt || title || "Архивное изображение")}">
+  </div>
+  <article class="modal-copy modal-copy--archive">
+    <p class="kicker">архив</p>
+    <h2 id="modal-title">${escapeHTML(title || "Архивное изображение")}</h2>
+  </article>`;
+  if (typeof nodes.modal.showModal === "function") {
+    nodes.modal.showModal();
+  } else {
+    nodes.modal.setAttribute("open", "");
+  }
+  if (nodes.modalClose) nodes.modalClose.focus();
+}
+
 function closeModal() {
   if (!nodes.modal || !nodes.modal.open) return;
-  nodes.modal.close();
+  $$("video", nodes.modal).forEach((video) => {
+    video.pause();
+    video.currentTime = 0;
+  });
+  if (typeof nodes.modal.close === "function") {
+    nodes.modal.close();
+  } else {
+    nodes.modal.removeAttribute("open");
+  }
   if (lastFocusedElement) lastFocusedElement.focus();
 }
 
@@ -187,23 +249,43 @@ function showToast(message) {
   toastTimer = window.setTimeout(() => nodes.toast.classList.remove("is-visible"), 2800);
 }
 
-function closeMenu() {
+function setMenuOpen(open) {
   if (!nodes.nav || !nodes.menuToggle) return;
-  nodes.nav.classList.remove("is-open");
-  nodes.menuToggle.setAttribute("aria-expanded", "false");
-  document.body.classList.remove("is-menu-open");
+  nodes.nav.classList.toggle("is-open", open);
+  nodes.menuToggle.setAttribute("aria-expanded", String(open));
+  nodes.menuToggle.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+  document.body.classList.toggle("is-menu-open", open);
+}
+
+function closeMenu() {
+  setMenuOpen(false);
+}
+
+function jumpToContact(artTitle = "") {
+  const contactSection = $("#contact");
+  if (!contactSection) return;
+  const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  const messageField = nodes.form ? $("[name='message']", nodes.form) : null;
+  if (messageField && artTitle && !messageField.value.trim()) {
+    messageField.value = `Здравствуйте! Интересует работа «${artTitle}». Подскажите, пожалуйста, доступность и условия покупки.`;
+  }
+  window.setTimeout(() => {
+    contactSection.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+  }, 80);
 }
 
 function bindEvents() {
   nodes.filters.forEach((button) => button.addEventListener("click", () => {
-    state.filter = button.dataset.filter || "all";
+    const nextFilter = button.dataset.filter || "all";
+    state.filter = allowedFilters.includes(nextFilter) ? nextFilter : "all";
     storage.set("dianaFinalFilter", state.filter);
     syncControls();
     renderGallery();
   }));
 
   nodes.viewButtons.forEach((button) => button.addEventListener("click", () => {
-    state.view = button.dataset.view || "grid";
+    const nextView = button.dataset.view || "grid";
+    state.view = allowedViews.includes(nextView) ? nextView : "grid";
     storage.set("dianaFinalView", state.view);
     syncControls();
     renderGallery();
@@ -215,7 +297,8 @@ function bindEvents() {
   });
 
   if (nodes.sort) nodes.sort.addEventListener("change", (event) => {
-    state.sort = event.target.value || "featured";
+    const nextSort = event.target.value || "featured";
+    state.sort = allowedSorts.includes(nextSort) ? nextSort : "featured";
     storage.set("dianaFinalSort", state.sort);
     renderGallery();
   });
@@ -230,25 +313,35 @@ function bindEvents() {
     if (card && !event.target.closest("a, button, input, select, textarea")) openModal(card.dataset.artId);
   });
 
-  if (nodes.gallery) nodes.gallery.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") return;
-    const card = event.target.closest("[data-art-id]");
-    if (!card) return;
+  document.addEventListener("click", (event) => {
+    const imageButton = event.target.closest("[data-open-image]");
+    if (!imageButton) return;
+    openImageModal({
+      src: imageButton.dataset.openImage,
+      title: imageButton.dataset.imageTitle,
+      alt: imageButton.dataset.imageAlt
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    const contactLink = event.target.closest("[data-contact-jump]");
+    if (!contactLink) return;
     event.preventDefault();
-    openModal(card.dataset.artId);
+    const artTitle = contactLink.dataset.artTitle || "";
+    closeModal();
+    closeMenu();
+    jumpToContact(artTitle);
   });
 
   if (nodes.availableList) nodes.availableList.addEventListener("click", (event) => {
+    if (event.target.closest("[data-contact-jump]")) return;
+    const opener = event.target.closest("[data-open-art]");
+    if (opener) {
+      openModal(opener.dataset.openArt);
+      return;
+    }
     const item = event.target.closest("[data-available-art]");
-    if (item) openModal(item.dataset.availableArt);
-  });
-
-  if (nodes.availableList) nodes.availableList.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") return;
-    const item = event.target.closest("[data-available-art]");
-    if (!item) return;
-    event.preventDefault();
-    openModal(item.dataset.availableArt);
+    if (item && !event.target.closest("a, button, input, select, textarea")) openModal(item.dataset.availableArt);
   });
 
   if (nodes.modalClose) nodes.modalClose.addEventListener("click", closeModal);
@@ -274,14 +367,15 @@ function bindEvents() {
 
   if (nodes.menuToggle && nodes.nav) nodes.menuToggle.addEventListener("click", () => {
     const expanded = nodes.menuToggle.getAttribute("aria-expanded") === "true";
-    nodes.menuToggle.setAttribute("aria-expanded", String(!expanded));
-    nodes.nav.classList.toggle("is-open", !expanded);
-    document.body.classList.toggle("is-menu-open", !expanded);
+    setMenuOpen(!expanded);
   });
 
   $$("a[href^='#']").forEach((link) => link.addEventListener("click", closeMenu));
 
-  if (nodes.backTop) nodes.backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  if (nodes.backTop) nodes.backTop.addEventListener("click", () => {
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+  });
 
   if (nodes.form) nodes.form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -298,18 +392,7 @@ function bindEvents() {
       nodes.formOutput.hidden = false;
       nodes.formOutput.textContent = preparedMessage;
     }
-    if (nodes.copyMessage) nodes.copyMessage.hidden = false;
-    showToast("Сообщение подготовлено — скопируйте его в Telegram.");
-  });
-
-  if (nodes.copyMessage) nodes.copyMessage.addEventListener("click", async () => {
-    if (!preparedMessage) return;
-    try {
-      await navigator.clipboard.writeText(preparedMessage);
-      showToast("Сообщение скопировано.");
-    } catch {
-      showToast("Не удалось скопировать автоматически — выделите текст вручную.");
-    }
+    showToast("Сообщение подготовлено.");
   });
 
   window.addEventListener("scroll", () => {
@@ -344,6 +427,7 @@ function initReveal() {
 
 function initRotatingPhrases() {
   if (!nodes.rotatingSource || !nodes.rotatingResult) return;
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
   const phrases = [
     ["фраза из дневника", "визуальная сцена"],
     ["городская привязанность", "горизонт воды"],
@@ -354,23 +438,65 @@ function initRotatingPhrases() {
   let index = 0;
   phraseTimer = window.setInterval(() => {
     index = (index + 1) % phrases.length;
-    nodes.rotatingSource.textContent = phrases[index][0];
-    nodes.rotatingResult.textContent = phrases[index][1];
-  }, 2600);
+    nodes.rotatingSource.classList.add("is-swapping");
+    nodes.rotatingResult.classList.add("is-swapping");
+    window.setTimeout(() => {
+      nodes.rotatingSource.textContent = phrases[index][0];
+      nodes.rotatingResult.textContent = phrases[index][1];
+      nodes.rotatingSource.classList.remove("is-swapping");
+      nodes.rotatingResult.classList.remove("is-swapping");
+    }, 150);
+  }, 3200);
+}
+
+function initHeroVideoSound() {
+  if (!nodes.heroVideo || !nodes.heroSound) return;
+  nodes.heroVideo.volume = 0.28;
+  const setSound = async (enabled) => {
+    nodes.heroVideo.muted = !enabled;
+    nodes.heroSound.classList.toggle("is-active", enabled);
+    nodes.heroSound.setAttribute("aria-pressed", String(enabled));
+    nodes.heroSound.setAttribute("aria-label", enabled ? "Выключить звук видео" : "Включить звук видео");
+    nodes.heroSound.querySelector("span").textContent = enabled ? "тихо" : "звук";
+    if (!enabled) return;
+    try {
+      await nodes.heroVideo.play();
+    } catch {
+      setSound(false);
+      showToast("Браузер не разрешил включить звук автоматически.");
+    }
+  };
+  nodes.heroSound.addEventListener("click", () => {
+    const enabled = nodes.heroSound.getAttribute("aria-pressed") === "true";
+    setSound(!enabled);
+  });
 }
 
 function initActiveNav() {
   const links = $$(".main-nav a");
   const sections = links.map((link) => $(link.getAttribute("href"))).filter(Boolean);
-  if (!sections.length || !("IntersectionObserver" in window)) return;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        links.forEach((link) => link.classList.toggle("is-active", link.getAttribute("href") === `#${entry.target.id}`));
-      }
+  if (!sections.length) return;
+  let navTicking = false;
+  const updateActiveLink = () => {
+    const headerOffset = nodes.header?.offsetHeight || 0;
+    const position = window.scrollY + headerOffset + 140;
+    let activeSection = null;
+    sections.forEach((section) => {
+      if (section.offsetTop <= position) activeSection = section;
     });
-  }, { threshold: 0.35 });
-  sections.forEach((section) => observer.observe(section));
+    links.forEach((link) => link.classList.toggle("is-active", Boolean(activeSection) && link.getAttribute("href") === `#${activeSection.id}`));
+  };
+  const scheduleUpdate = () => {
+    if (navTicking) return;
+    navTicking = true;
+    window.requestAnimationFrame(() => {
+      updateActiveLink();
+      navTicking = false;
+    });
+  };
+  updateActiveLink();
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", updateActiveLink);
 }
 
 function init() {
@@ -382,6 +508,7 @@ function init() {
   bindEvents();
   initReveal();
   initRotatingPhrases();
+  initHeroVideoSound();
   initActiveNav();
 }
 

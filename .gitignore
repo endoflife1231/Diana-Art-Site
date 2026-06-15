@@ -1,0 +1,9 @@
+# Local backups and working references
+backups/
+ChatExport_*/
+правки/
+правки */
+
+# Generated caches
+__pycache__/
+*.pyc
