@@ -1,0 +1,4 @@
+interface:
+  display_name: Caveman Review
+  short_description: One-line actionable code-review findings for compact PR feedback
+  default_prompt: Use $caveman-review for this task. Follow the skill workflow and preserve technical accuracy.

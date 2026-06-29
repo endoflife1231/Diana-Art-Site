@@ -1,0 +1,4 @@
+interface:
+  display_name: Caveman Setup
+  short_description: Opt-in native Codex hooks for persistent Caveman mode
+  default_prompt: Use $caveman-setup for this task. Follow the skill workflow and preserve technical accuracy.

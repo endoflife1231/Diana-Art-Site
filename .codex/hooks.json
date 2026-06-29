@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.agents/skills/caveman-setup/scripts/caveman_hook.py\"",
+            "timeout": 5,
+            "statusMessage": "Loading optional Caveman mode"
+          }
+        ],
+        "matcher": "startup|resume|clear|compact"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.agents/skills/caveman-setup/scripts/caveman_hook.py\"",
+            "timeout": 5,
+            "statusMessage": "Loading optional Caveman mode"
+          }
+        ]
+      }
+    ]
+  }
+}
