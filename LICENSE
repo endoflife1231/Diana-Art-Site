@@ -1,0 +1,52 @@
+# Diana Art Site License
+
+Copyright (c) 2026 Diana and project contributors.
+
+This repository contains two different kinds of material:
+
+1. Website source code.
+2. Creative content: artworks, images, videos, visual assets, writing, descriptions, stories, captions, and the Diana/Diartka artistic identity.
+
+They are licensed differently.
+
+## 1. Website Source Code
+
+The website source code is licensed under the MIT License.
+
+This includes the HTML, CSS, JavaScript, configuration files, and technical documentation written for the website, except where a file clearly says otherwise.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of the website source code and associated documentation files, to deal in the website source code without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the website source code, and to permit persons to whom the website source code is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the website source code.
+
+THE WEBSITE SOURCE CODE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE WEBSITE SOURCE CODE OR THE USE OR OTHER DEALINGS IN THE WEBSITE SOURCE CODE.
+
+## 2. Creative Content
+
+All creative content is not licensed under MIT.
+
+All rights are reserved by Diana and the respective rights holders.
+
+Creative content includes, without limitation:
+
+- artworks and paintings;
+- artwork photos and scans;
+- portraits and archive photos;
+- videos;
+- captions, stories, quotes, descriptions, and editorial copy;
+- visual identity, branding, and artist identity;
+- files inside `assets/images/` and `assets/videos/`, unless a file explicitly says otherwise.
+
+You may not copy, reuse, publish, redistribute, sell, mint as NFT, train models on, modify, or create derivative works from the creative content without prior written permission from the rights holder.
+
+Viewing the website, sharing links to the website, and displaying the website through normal web browsing are allowed.
+
+## 3. Third-Party Material
+
+This project may reference third-party names, platforms, shows, cultural works, or services for context. Those names and works remain the property of their respective owners.
+
+Local development tools, Codex skills, and third-party notices may have their own licenses in their respective files or folders.
+
+## 4. Permission Requests
+
+For permission to use creative content, contact Diana through the links provided on the website.
