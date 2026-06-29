@@ -1,9 +1,43 @@
-# Local backups and working references
-backups/
-ChatExport_*/
-правки/
-правки */
+# Private source material and local snapshots
+/backups/
+/diana photos/
+/export chat/
 
-# Generated caches
+# Imported source pack; selected project skills live in .agents/skills
+/codex skills/
+
+# Caveman runtime state and generated hook backups
+/.codex/.caveman-state.json
+/.codex/.caveman-backups/
+/caveman-backups/
+
+# Local servers, reports, caches and temporary output
+/.cache/
+/coverage/
+/playwright-report/
+/test-results/
+/output/
+/.playwright-cli/
+/tmp/
+/temp/
+*.log
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Secrets and local environment files
+.env
+.env.*
+!.env.example

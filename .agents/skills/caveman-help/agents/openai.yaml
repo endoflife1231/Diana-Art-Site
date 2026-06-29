@@ -1,0 +1,4 @@
+interface:
+  display_name: Caveman Help
+  short_description: Usage guide for Caveman skills, agents, compression, and optional hooks
+  default_prompt: Use $caveman-help for this task. Follow the skill workflow and preserve technical accuracy.

@@ -1,0 +1,4 @@
+interface:
+  display_name: Caveman Compress
+  short_description: Compress prose safely with backup, validation, and no external model dependency
+  default_prompt: Use $caveman-compress for this task. Follow the skill workflow and preserve technical accuracy.

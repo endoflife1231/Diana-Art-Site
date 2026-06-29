@@ -1,0 +1,4 @@
+interface:
+  display_name: Caveman Stats
+  short_description: Measure prose compression without pretending to know exact Codex token billing
+  default_prompt: Use $caveman-stats for this task. Follow the skill workflow and preserve technical accuracy.

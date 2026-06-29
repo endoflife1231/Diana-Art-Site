@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://endoflife1231.github.io/Diana-Art-Site/Diana-Sitev1/sitemap.xml

@@ -1,0 +1,4 @@
+interface:
+  display_name: Caveman Commit
+  short_description: Terse Conventional Commit messages without performing Git actions
+  default_prompt: Use $caveman-commit for this task. Follow the skill workflow and preserve technical accuracy.
